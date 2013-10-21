@@ -91,13 +91,16 @@ def test_construct():
     ooochecker = checks.OpenOfficeChecker()
     gnomechecker = checks.GnomeChecker()
     kdechecker = checks.KdeChecker()
+	yelpcheck = checks.YelpChecker()
 
 
 def test_accelerator_markers():
     """test that we have the correct accelerator marker for the various default configs"""
     stdchecker = checks.StandardChecker()
     assert stdchecker.config.accelmarkers == []
-    mozillachecker = checks.MozillaChecker()
+    yelpchecker = checks.StandardChecker()
+    assert yelpchecker.config.accelmarkers == []
+	mozillachecker = checks.MozillaChecker()
     assert mozillachecker.config.accelmarkers == ["&"]
     ooochecker = checks.OpenOfficeChecker()
     assert ooochecker.config.accelmarkers == ["~"]
@@ -806,6 +809,21 @@ def test_validchars():
     assert passes(stdchecker.validchars, "This sentence contains valid chars", u"\u1e3c")
     assert passes(stdchecker.validchars, "This sentence contains valid chars", u"\u004c\u032d")
 
+
+def test_variables_yelp():
+	"""tests variables in Yelp translations"""
+    yelpchecker = checks.YelpChecker()
+    assert passes(yelpchecker.variables, "About $ProgramName", "Oor $ProgramName")
+	assert fails_serious(yelpchecker.variables, "About $ProgramName", "Oor $NaamVanProgam")
+	assert passes(yelpchecker.variables, "About $25", "Oor €25")
+	assert passes(yelpchecker.variables, "About ${ProgramName}", "Oor ${ProgramName}")
+	assert fails_serious(yelpchecker.variables, "About ${ProgramName}", "Oor ${NaamVanProgam}")
+	assert passes(yelpchecker.variables, "About %1$s", "Oor %1$s")
+	assert fails_serious(yelpchecker.variables, "About %1$s", "Oor %1$a")
+	assert passes(yelpchecker.variables, "About %s", "Oor %s")
+	assert fails_serious(yelpchecker.variables, "About %s", "Oor %a")
+	assert passes(yelpchecker.variables, "About %@", "Oor %@")
+	assert fails_serious(yelpchecker.variables, "About %@", "Oor %a")
 
 def test_variables_kde():
     """tests variables in KDE translations"""

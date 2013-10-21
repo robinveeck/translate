@@ -1550,6 +1550,24 @@ class StandardChecker(TranslationChecker):
 
 # code to actually run the tests (use unittest?)
 
+yelpconfig = YelpConfig(
+    varmatches=[("%", None), ("%@", None), ("$", None), ("${","}"),
+	    ("%", "$s")]
+    )
+
+class YelpChecker(StandardChecker):
+
+    def __init__(self, **kwargs):
+        checkerconfig = kwargs.get("checkerconfig", None)
+
+        if checkerconfig is None:
+            checkerconfig = CheckerConfig()
+            kwargs["checkerconfig"] = checkerconfig
+
+        checkerconfig.update(yelpconfig)
+        StandardChecker.__init__(self, **kwargs)
+
+
 openofficeconfig = CheckerConfig(
     accelmarkers=["~"],
     varmatches=[("&", ";"), ("%", "%"), ("%", None), ("%", 0), ("$(", ")"),
