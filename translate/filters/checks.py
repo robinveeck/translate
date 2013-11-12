@@ -1550,7 +1550,7 @@ class StandardChecker(TranslationChecker):
 
 # code to actually run the tests (use unittest?)
 
-yelpconfig = YelpConfig(
+yelpconfig = CheckerConfig(
     varmatches=[("%", None), ("%@", None), ("$", None), ("${","}"),
 	    ("%", "$s")]
     )

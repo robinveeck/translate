@@ -143,6 +143,11 @@ def findaccelerators(str1, accelmarker, acceptlist=None):
     return accelerators, badaccelerators
 
 
+
+def findmarkedvariableswithregex(str1, pattern, ignorelist):
+	"""Return all the variables and locations in str that are marked with regex pattern."""
+
+
 def findmarkedvariables(str1, startmarker, endmarker, ignorelist=[]):
     """returns all the variables and locations in str1 marked with a given
     marker"""
